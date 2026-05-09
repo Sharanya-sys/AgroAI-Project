@@ -210,7 +210,7 @@ This application is NOT a substitute for professional agricultural advice. Alway
 - Agricultural hackathons
 - Portfolio projects
 
-### 🚀 Future Enhancement Ideas
+###  Future Enhancement Ideas
 
 - Integration with ML models for better accuracy
 - Database integration for user history
@@ -223,17 +223,16 @@ This application is NOT a substitute for professional agricultural advice. Alway
 - Integration with agricultural experts
 - IoT sensor integration
 
-### 📝 License
+### License
 
 Free to use for educational and non-commercial purposes.
 
-### 🤝 Contributing
+###  Contributing
 
 Students and developers are welcome to contribute and improve this project!
 
 ---
 
-**Built with ❤️ by S3V Developers**
 
 *"Helping farmers detect plant diseases early for sustainable agriculture"*
 
