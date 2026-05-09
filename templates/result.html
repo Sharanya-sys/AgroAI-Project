@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroAI - Analysis Result</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="result-page">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <span class="logo-icon">🌱</span>
+                <span class="logo-text">AgroAI</span>
+            </div>
+            <button class="close-btn" id="closeBtn">✕</button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="/" class="nav-item" data-label="home">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-text" data-en="Home" data-hi="होम" data-kn="ಮುಖ್ಯ ಪುಟ">Home</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <p data-en="S3V Developers" data-hi="S3V डेवलपर्स" data-kn="S3V ಡೆವಲಪರ್ಸ್">S3V Developers</p>
+        </div>
+    </aside>
+
+    <!-- Hamburger Menu -->
+    <button class="hamburger" id="hamburger">☰</button>
+
+    <!-- Main Content -->
+    <main class="main-content result-content">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="app-title">🌱 AgroAI – Plant Analysis Result</h1>
+            </div>
+        </header>
+
+        <!-- Result Card -->
+        <section class="dashboard-section result-section">
+            <div class="result-card" style="border-left: 8px solid {% if result.color == 'red' %}#ff4757{% elif result.color == 'yellow' %}#ffa502{% elif result.color == 'green' %}#2ed573{% else %}#95a5a6{% endif %};">
+                
+                <!-- Image & Disease Name Row -->
+                <div class="result-grid">
+                    <div class="result-image-container">
+                        <img src="{{ result.image }}" alt="Analyzed Plant" class="result-image">
+                        <p class="image-label" data-en="Uploaded Image" data-hi="अपलोड की गई छवि" data-kn="ಅಪ್ಲೋಡ್ ಮಾಡಿದ ಚಿತ್ರ">Uploaded Image</p>
+                    </div>
+
+                    <div class="result-disease-info">
+                        <div class="disease-header">
+                            <h2 class="disease-name">{{ result.name }}</h2>
+                            <div class="severity-badge" style="background-color: {% if result.color == 'red' %}#ff4757{% elif result.color == 'yellow' %}#ffa502{% elif result.color == 'green' %}#2ed573{% else %}#95a5a6{% endif %};">
+                                {% if result.severity == 'high' %}
+                                    <span data-en="🔴 High Risk" data-hi="🔴 उच्च जोखिम" data-kn="🔴 ಹೆಚ್ಚಿನ ಅಪಾಯ">🔴 High Risk</span>
+                                {% elif result.severity == 'medium' %}
+                                    <span data-en="🟡 Medium Risk" data-hi="🟡 मध्यम जोखिम" data-kn="🟡 ಮಧ್ಯಮ ಅಪಾಯ">🟡 Medium Risk</span>
+                                {% elif result.severity == 'none' %}
+                                    <span data-en="🟢 Healthy" data-hi="🟢 स्वस्थ" data-kn="🟢 ಆರೋಗ್ಯಕರ">🟢 Healthy</span>
+                                {% else %}
+                                    <span data-en="⚠️ Unknown" data-hi="⚠️ अज्ञात" data-kn="⚠️ ಅಜ್ಞಾತ">⚠️ Unknown</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <p class="result-confidence" data-en="Confidence Score: {{ result.confidence }}" data-hi="विश्वास स्कोर: {{ result.confidence }}" data-kn="ವಿಶ್ವಾಸ ಸ್ಕೋರ್: {{ result.confidence }}">Confidence Score: {{ result.confidence }}</p>
+                        <p class="result-timestamp">{{ result.timestamp }}</p>
+                    </div>
+                </div>
+
+                <!-- Disease Details -->
+                <div class="result-details">
+                    <div class="detail-item">
+                        <h3 data-en="🔍 Cause" data-hi="🔍 कारण" data-kn="🔍 ಕಾರಣ">🔍 Cause</h3>
+                        <p>{{ result.cause }}</p>
+                    </div>
+
+                    <div class="detail-item">
+                        <h3 data-en="📋 Symptoms" data-hi="📋 लक्षण" data-kn="📋 ರೋಗಲಕ್ಷಣಗಳು">📋 Symptoms</h3>
+                        <p>{{ result.symptoms }}</p>
+                    </div>
+
+                    <div class="detail-item prevention-item">
+                        <h3 data-en="🛡️ Prevention" data-hi="🛡️ रोकथाम" data-kn="🛡️ ತಡೆಗಟ್ಟುವಿಕೆ">🛡️ Prevention</h3>
+                        <p>{{ result.prevention }}</p>
+                    </div>
+
+                    <div class="detail-item treatment-item">
+                        <h3 data-en="💊 Treatment" data-hi="💊 उपचार" data-kn="💊 ಚಿಕಿತ್ಸೆ">💊 Treatment</h3>
+                        <p>{{ result.treatment }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="result-actions">
+                <a href="/" class="btn btn-primary" data-en="↩️ Analyze Another Plant" data-hi="↩️ दूसरे पौधे का विश्लेषण करें" data-kn="↩️ ಇತರ ಸಸ್ಯವನ್ನು ವಿಶ್ಲೇಷಿಸಿ">↩️ Analyze Another Plant</a>
+                <a href="/" class="btn btn-secondary" data-en="🏠 Go Home" data-hi="🏠 घर जाएं" data-kn="🏠 ಮನೆಗೆ ಹೋಗಿ">🏠 Go Home</a>
+            </div>
+        </section>
+
+        <!-- Additional Info Section -->
+        <section class="dashboard-section">
+            <h2 class="section-title" data-en="Quick Tips for This Plant" data-hi="इस पौधे के लिए त्वरित सुझाव" data-kn="ಈ ಸಸ್ಯಕ್ಕಾಗಿ ತ್ವರಿತ ಸಲಹೆಗಳು">Quick Tips for This Plant</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h3 data-en="Immediate Action" data-hi="तत्काल कार्रवाई" data-kn="ತಕ್ಷಣ ಕ್ರಿಯೆ">Immediate Action</h3>
+                    <p data-en="Check other plants for similar symptoms" data-hi="अन्य पौधों में समान लक्षण देखें" data-kn="ಇತರ ಸಸ್ಯಗಳಲ್ಲಿ ಸಮಾನ ರೋಗಲಕ್ಷಣಗಳನ್ನು ಪರಿಶೀಲಿಸಿ">Check other plants for similar symptoms</p>
+                </div>
+
+                <div class="tip-card">
+                    <h3 data-en="Environmental Care" data-hi="पर्यावरणीय देखभाल" data-kn="ಪರಿಸರ ಸಂರಕ್ಷಣೆ">Environmental Care</h3>
+                    <p data-en="Maintain proper spacing and ventilation" data-hi="उचित दूरी और हवा का संचार बनाए रखें" data-kn="ಸರಿಯಾದ ರಿಂತನ ಮತ್ತು ಸಂವಾದಿತ ವಾಯುವಿನಿಮಯ ನಿರ್ವಹಿಸಿ">Maintain proper spacing and ventilation</p>
+                </div>
+
+                <div class="tip-card">
+                    <h3 data-en="Monitor Progress" data-hi="प्रगति की निगरानी करें" data-kn="ಪ್ರಗತಿ ಮೇಲ್ವಿಚಾರಣೆ ಮಾಡಿ">Monitor Progress</h3>
+                    <p data-en="Track improvements after treatment" data-hi="उपचार के बाद सुधार ट्रैक करें" data-kn="ಚಿಕಿತ್ಸೆಯ ನಂತರ ಸುಧಾರಗಳನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಿ">Track improvements after treatment</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="footer-content">
+            <p>🌱 <strong>AgroAI – Smart Plant Health Assistant</strong></p>
+            <p data-en="Team: S3V Developers | Contact: thantrysharanya@gmail.com" data-hi="टीम: S3V डेवलपर्स | संपर्क: thantrysharanya@gmail.com" data-kn="ತಂಡ: S3V ಡೆವಲಪರ್ಸ್ | ಸಂಪರ್ಕ: thantrysharanya@gmail.com">Team: S3V Developers | Contact: thantrysharanya@gmail.com</p>
+            <p class="disclaimer" data-en="⚖️ This project is for educational purposes only. Not a substitute for professional agricultural advice." data-hi="⚖️ यह परियोजना केवल शैक्षणिक उद्देश्यों के लिए है। पेशेवर कृषि सलाह का विकल्प नहीं है।" data-kn="⚖️ ಈ ಯೋಜನೆ ಶೈಕ್ಷಣಿಕ ಉದ್ದೇಶಗಳಿಗಾಗಿ ಮಾತ್ರ. ವೃತ್ತಿಪರ ಕೃಷಿ ಸಲಹೆಗಳ ಬದಲಿಯಲ್ಲ.">⚖️ This project is for educational purposes only. Not a substitute for professional agricultural advice.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        // Animation on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const resultCard = document.querySelector('.result-card');
+            resultCard.style.animation = 'slideIn 0.5s ease-out';
+        });
+    </script>
+</body>
+</html>
