@@ -5,13 +5,19 @@
 // Current language setting
 let currentLanguage = localStorage.getItem('language') || 'en';
 
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', function() {
+function initializeApp() {
     initializeSidebar();
     initializeDragDrop();
     setupLanguageSwitching();
     setLanguage(currentLanguage);
-});
+    fetchWeatherData();
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeApp);
+} else {
+    initializeApp();
+}
 
 /* ============================================
    SIDEBAR FUNCTIONALITY
@@ -217,17 +223,24 @@ function fetchWeatherData() {
         });
 }
 
+// Store weather data globally for modal
+let currentWeatherData = {};
+
 function displayWeather(data) {
     const weatherContent = document.getElementById('weatherContent');
+    currentWeatherData = data; // Store for modal
     
     const weatherHTML = `
         <div class="weather-info">
-            <div class="weather-label" data-en="Location" data-hi="स्थान" data-kn="ಸ್ಥಳ">Location</div>
-            <div class="weather-value">${data.location}</div>
+            <div class="weather-icon">${getWeatherIcon(data.weather)}</div>
+            <div>
+                <div class="weather-label" data-en="Weather" data-hi="मौसम" data-kn="ಹವಾಮಾನ">Weather</div>
+                <div class="weather-value">${data.weather}</div>
+            </div>
         </div>
         <div class="weather-info">
-            <div class="weather-icon">${data.weather.split(' ')[0]}</div>
-            <div class="weather-label">${data.weather}</div>
+            <div class="weather-label" data-en="Location" data-hi="स्थान" data-kn="ಸ್ಥಳ">Location</div>
+            <div class="weather-value">${data.location}</div>
         </div>
         <div class="weather-info">
             <div class="weather-label" data-en="Temperature" data-hi="तापमान" data-kn="ತಾಪಮಾನ">Temperature</div>
@@ -240,6 +253,55 @@ function displayWeather(data) {
     `;
     
     weatherContent.innerHTML = weatherHTML;
+}
+
+function showWeatherDetails() {
+    const modal = document.getElementById('weatherModal');
+    const detailsContent = document.getElementById('weatherDetailsContent');
+    
+    if (!currentWeatherData.location) {
+        detailsContent.innerHTML = '<p style="color: #b0b0b0;">No weather data available. Please try again.</p>';
+    } else {
+        const detailedHTML = `
+            <div style="display: grid; gap: 20px;">
+                <div style="padding: 15px; background: rgba(46, 213, 115, 0.1); border-radius: 15px; border-left: 4px solid #2ed573;">
+                    <div style="color: var(--text-secondary); font-size: 0.9rem;">Location</div>
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #ffffff; margin-top: 5px;">${currentWeatherData.location}</div>
+                </div>
+                <div style="padding: 15px; background: rgba(46, 213, 115, 0.1); border-radius: 15px; border-left: 4px solid #2ed573;">
+                    <div style="color: var(--text-secondary); font-size: 0.9rem;">Weather Condition</div>
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #ffffff; margin-top: 5px;">${getWeatherIcon(currentWeatherData.weather)} ${currentWeatherData.weather}</div>
+                </div>
+                <div style="padding: 15px; background: rgba(46, 213, 115, 0.1); border-radius: 15px; border-left: 4px solid #2ed573;">
+                    <div style="color: var(--text-secondary); font-size: 0.9rem;">Temperature</div>
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #ffffff; margin-top: 5px;">${currentWeatherData.temperature}°C</div>
+                </div>
+                <div style="padding: 15px; background: rgba(46, 213, 115, 0.1); border-radius: 15px; border-left: 4px solid #2ed573;">
+                    <div style="color: var(--text-secondary); font-size: 0.9rem;">Humidity</div>
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #ffffff; margin-top: 5px;">${currentWeatherData.humidity}%</div>
+                </div>
+            </div>
+        `;
+        detailsContent.innerHTML = detailedHTML;
+    }
+    
+    modal.style.display = 'flex';
+}
+
+function closeWeatherDetails() {
+    const modal = document.getElementById('weatherModal');
+    modal.style.display = 'none';
+}
+
+function getWeatherIcon(condition) {
+    const weather = condition.toLowerCase();
+    if (weather.includes('clear')) return '☀️';
+    if (weather.includes('cloud')) return '☁️';
+    if (weather.includes('rain')) return '🌧️';
+    if (weather.includes('storm')) return '⛈️';
+    if (weather.includes('snow')) return '❄️';
+    if (weather.includes('mist') || weather.includes('fog') || weather.includes('haze')) return '🌫️';
+    return '🌤️';
 }
 
 function displayWeatherError() {
@@ -256,16 +318,18 @@ function displayWeatherError() {
    SCROLL TO SECTION
    ============================================ */
 
-function scrollToSection(sectionId) {
-    event.preventDefault();
-    
+function scrollToSection(sectionId, event) {
+    if (event) {
+        event.preventDefault();
+    }
+
     const element = document.querySelector(sectionId);
     if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
         
         // Close sidebar on mobile
         const sidebar = document.getElementById('sidebar');
-        if (window.innerWidth < 768) {
+        if (window.innerWidth < 768 && sidebar) {
             sidebar.classList.remove('active');
         }
     }
@@ -335,39 +399,57 @@ function displayResults(data) {
         return;
     }
     
-    // Set border color based on severity
-    let borderColor = '#95a5a6'; // default gray
+    let borderColor = '#95a5a6';
     if (data.color === 'red') borderColor = '#ff4757';
     else if (data.color === 'yellow') borderColor = '#ffa502';
     else if (data.color === 'green') borderColor = '#2ed573';
     
     resultCard.style.borderLeft = `8px solid ${borderColor}`;
     
-    // Create result HTML
+    const severityLabel = `${data.severity.charAt(0).toUpperCase()}${data.severity.slice(1).toLowerCase()} Risk`;
+    
     const resultHTML = `
-        <div class="result-header">
-            <h3 class="disease-name">${data.disease}</h3>
-            <span class="severity-badge severity-${data.color}">${data.severity}</span>
+        <div class="result-grid">
+            <div class="result-image-container">
+                <img src="${data.image}" alt="${data.disease}" class="result-image">
+                <div class="image-label" data-en="Uploaded leaf image" data-hi="अपलोड की गई पत्ती की छवि" data-kn="ಅಪ್‌ಲೋಡ್ ಮಾಡಿದ ಎಲೆ ಚಿತ್ರ">Uploaded leaf image</div>
+            </div>
+            <div class="result-info">
+                <div class="result-header">
+                    <h3 class="disease-name">${data.disease}</h3>
+                    <span class="severity-badge severity-${data.color}">${data.severity.charAt(0).toUpperCase()}${data.severity.slice(1).toLowerCase()} Risk</span>
+                </div>
+                <div class="result-meta">
+                    <span class="result-confidence">Confidence: ${data.confidence}</span>
+                    <span class="result-timestamp">${data.timestamp}</span>
+                </div>
+                <p class="result-summary">${data.description}</p>
+            </div>
         </div>
         
         <div class="result-details">
-            <div class="result-info">
-                <h4>Description:</h4>
-                <p>${data.description}</p>
-                
-                <h4>Causes:</h4>
+            <div class="detail-item">
+                <h3>🔍 Causes</h3>
                 <ul>
                     ${data.causes.map(cause => `<li>${cause}</li>`).join('')}
                 </ul>
-                
-                <h4>Treatment:</h4>
+            </div>
+            <div class="detail-item">
+                <h3>🌿 Symptoms</h3>
                 <ul>
-                    ${data.treatment.map(treat => `<li>${treat}</li>`).join('')}
+                    ${data.description.split('.').filter(s => s.trim()).map(symptom => `<li>${symptom.trim()}</li>`).join('')}
                 </ul>
-                
-                <h4>Prevention:</h4>
+            </div>
+            <div class="detail-item">
+                <h3>🛡️ Prevention</h3>
                 <ul>
                     ${data.prevention.map(prev => `<li>${prev}</li>`).join('')}
+                </ul>
+            </div>
+            <div class="detail-item">
+                <h3>💊 Treatment</h3>
+                <ul>
+                    ${data.treatment.map(treat => `<li>${treat}</li>`).join('')}
                 </ul>
             </div>
         </div>

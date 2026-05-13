@@ -25,19 +25,19 @@
                 <span class="nav-icon">🏠</span>
                 <span class="nav-text" data-en="Home" data-hi="होम" data-kn="ಮುಖ್ಯ ಪುಟ">Home</span>
             </a>
-            <a href="#upload-section" class="nav-item" data-label="upload" onclick="scrollToSection('#upload-section')">
+            <a href="#upload-section" class="nav-item" data-label="upload" onclick="scrollToSection('#upload-section', event)">
                 <span class="nav-icon">📸</span>
                 <span class="nav-text" data-en="Upload & Predict" data-hi="अपलोड और पूर्वानुमान" data-kn="ಅಪ್ಲೋಡ್ ಮತ್ತು ಭವಿಷ್ಯದ ನಿರ್ಧಾರ">Upload & Predict</span>
             </a>
-            <a href="#weather-section" class="nav-item" data-label="weather" onclick="scrollToSection('#weather-section')">
+            <a href="#weather-section" class="nav-item" data-label="weather" onclick="scrollToSection('#weather-section', event)">
                 <span class="nav-icon">🌦️</span>
                 <span class="nav-text" data-en="Weather" data-hi="मौसम" data-kn="ಹವಾಮಾನ">Weather</span>
             </a>
-            <a href="#tips-section" class="nav-item" data-label="tips" onclick="scrollToSection('#tips-section')">
+            <a href="#tips-section" class="nav-item" data-label="tips" onclick="scrollToSection('#tips-section', event)">
                 <span class="nav-icon">💡</span>
                 <span class="nav-text" data-en="Usage Tips" data-hi="उपयोग सुझाव" data-kn="ಬಳಕೆಯ ಸಲಹೆಗಳು">Usage Tips</span>
             </a>
-            <a href="#about-section" class="nav-item" data-label="about" onclick="scrollToSection('#about-section')">
+            <a href="#about-section" class="nav-item" data-label="about" onclick="scrollToSection('#about-section', event)">
                 <span class="nav-icon">ℹ️</span>
                 <span class="nav-text" data-en="About" data-hi="बारे में" data-kn="ಬಗ್ಗೆ">About</span>
             </a>
@@ -108,6 +108,28 @@
                 </form>
             </div>
         </section>
+
+        <!-- Weather Section -->
+        <section class="dashboard-section" id="weather-section">
+            <h2 class="section-title" data-en="Weather" data-hi="मौसम" data-kn="ಹವಾಮಾನ">Weather</h2>
+            <div class="weather-card" id="weatherContent" onclick="showWeatherDetails()" style="cursor: pointer;">
+                <div class="weather-info">
+                    <div class="weather-icon">⛅</div>
+                    <div class="weather-label" data-en="Loading weather..." data-hi="मौसम लोड हो रहा है..." data-kn="ಹವಾಮಾನ ಲೋಡ್ ಆಗುತ್ತಿದೆ...">Loading weather...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Weather Details Modal -->
+        <div class="weather-modal" id="weatherModal" style="display: none;">
+            <div class="weather-modal-content">
+                <button class="weather-modal-close" onclick="closeWeatherDetails()">×</button>
+                <h2 data-en="Weather Details" data-hi="मौसम विवरण" data-kn="ಹವಾಮಾನ ವಿವರಗಳು">Weather Details</h2>
+                <div id="weatherDetailsContent" style="padding: 20px;">
+                    <p data-en="Loading weather details..." data-hi="मौसम विवरण लोड हो रहे हैं..." data-kn="ಹವಾಮಾನ ವಿವರಗಳು ಲೋಡ್ ಆಗುತ್ತಿದೆ...">Loading weather details...</p>
+                </div>
+            </div>
+        </div>
 
         <!-- Tips Section -->
         <section class="dashboard-section" id="tips-section">
