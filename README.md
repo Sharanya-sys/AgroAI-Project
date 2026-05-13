@@ -4,7 +4,7 @@
 
 AgroAI is a cutting-edge, fully-functional offline web application designed for detecting plant diseases using modern AI-simulation technology. Built with Python Flask and featuring a professional SaaS-style dashboard, it empowers farmers and agricultural professionals to identify plant diseases early and take preventive action.
 
-### ✨ Key Features
+###  Key Features
 
 - **Offline Operation**: Complete functionality without internet - perfect for rural areas
 - **Multi-Language Support**: English, Hindi, and Kannada - Instantly switch languages
@@ -17,7 +17,7 @@ AgroAI is a cutting-edge, fully-functional offline web application designed for 
 - **Zero Database Required**: All data stored locally in-memory
 - **Educational & Professional**: Perfect for college projects and startup demos
 
-### 🎯 Supported Diseases
+###  Supported Diseases
 
 1. **Tomato Early Blight** - Fungal infection with dark concentric spots
 2. **Leaf Spot Disease** - Bacterial/fungal infection with yellow/brown spots
@@ -25,7 +25,7 @@ AgroAI is a cutting-edge, fully-functional offline web application designed for 
 4. **Healthy Plant** - No disease detected
 5. **Unknown** - Unable to identify from image
 
-### 🛠️ Technology Stack
+###  Technology Stack
 
 - **Backend**: Python 3.x + Flask
 - **Frontend**: HTML5, CSS3, Vanilla JavaScript
@@ -34,7 +34,7 @@ AgroAI is a cutting-edge, fully-functional offline web application designed for 
 - **Language**: Multi-language support (JavaScript-based, no API)
 - **Weather**: Open-Meteo free API (no API key required)
 
-### 📋 Project Structure
+###  Project Structure
 
 ```
 AgroAI/
@@ -53,7 +53,7 @@ AgroAI/
 └── README.md                        # This file
 ```
 
-### 🚀 Quick Start Guide
+### Quick Start Guide
 
 #### Prerequisites
 - Python 3.7 or higher
@@ -88,7 +88,7 @@ AgroAI/
    - View detailed disease information
    - Apply prevention and treatment tips
 
-### 📱 Features Detailed
+###  Features Detailed
 
 #### 1. **Sidebar Navigation**
 - Home - Main dashboard
@@ -132,7 +132,7 @@ AgroAI/
 - Accessibility-focused
 - Modern typography with Google Fonts
 
-### 🎨 UI/UX Highlights
+###  UI/UX Highlights
 
 - **Dark Theme**: Eye-friendly dark background with vibrant green accents
 - **Glassmorphism**: Modern frosted glass effect on cards
@@ -141,7 +141,7 @@ AgroAI/
 - **Professional Spacing**: Perfect padding and margins throughout
 - **Color Coding**: Green (Healthy), Yellow (Warning), Red (Disease)
 
-### 🔍 How Disease Prediction Works
+###  How Disease Prediction Works
 
 The prediction system uses **filename-based intelligent matching**:
 
@@ -156,7 +156,7 @@ Image filename contains:
 
 *Note: For demo purposes, name your test images accordingly. In production, this would use actual ML models.*
 
-### 📊 Disease Information Provided
+###  Disease Information Provided
 
 For each detected disease, the app provides:
 
@@ -167,7 +167,7 @@ For each detected disease, the app provides:
 5. **Confidence Score** - Prediction accuracy percentage
 6. **Risk Level** - Green/Yellow/Red severity badge
 
-### 🌐 API Endpoints
+###  API Endpoints
 
 ```
 GET  /                    - Home page
@@ -175,7 +175,7 @@ POST /predict             - Upload image and get prediction
 GET  /api/weather         - Get current weather data
 ```
 
-### 🔐 Data Privacy
+###  Data Privacy
 
 - ✅ All processing happens locally
 - ✅ No data sent to external servers
@@ -184,14 +184,14 @@ GET  /api/weather         - Get current weather data
 - ✅ No database - everything in-memory
 - ✅ Educational purposes only
 
-### 👥 Team Information
+###  Team Information
 
 **Team: S3V Developers**
 
 Passionate developers creating intelligent agricultural solutions for sustainable farming.
 
 **Contact:**
-- 📧 thantrysharanya@gmail.com
+- thantrysharanya@gmail.com
 
 **Works Offline:** ✅ Complete offline functionality - no internet required!
 
@@ -201,16 +201,16 @@ Passionate developers creating intelligent agricultural solutions for sustainabl
 
 This application is NOT a substitute for professional agricultural advice. Always consult with qualified agricultural experts or plant pathologists for accurate disease diagnosis and treatment recommendations. The predictions are based on simplified rule-based logic for demonstration purposes.
 
-### 💡 Perfect For
+###  Perfect For
 
-- 🎓 College/University projects
-- 🏆 Tech competitions
-- 💼 Startup demos
-- 📚 Educational presentations
-- 🌾 Agricultural hackathons
-- 👨‍💻 Portfolio projects
+- College/University projects
+- Tech competitions
+- Startup demos
+- Educational presentations
+- Agricultural hackathons
+- Portfolio projects
 
-### 🚀 Future Enhancement Ideas
+###  Future Enhancement Ideas
 
 - Integration with ML models for better accuracy
 - Database integration for user history
@@ -223,17 +223,16 @@ This application is NOT a substitute for professional agricultural advice. Alway
 - Integration with agricultural experts
 - IoT sensor integration
 
-### 📝 License
+### License
 
 Free to use for educational and non-commercial purposes.
 
-### 🤝 Contributing
+###  Contributing
 
 Students and developers are welcome to contribute and improve this project!
 
 ---
 
-**Built with ❤️ by S3V Developers**
 
 *"Helping farmers detect plant diseases early for sustainable agriculture"*
 
